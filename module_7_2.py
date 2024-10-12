@@ -1,6 +1,26 @@
 
-def custom_write(filename: str, info: str) -> dict:
-    return {}
+def custom_write(file_name: str, strings: list[str]) -> dict:
+    """
+    Записывать в файл file_name все строки из списка strings, каждая на новой строке.
+    :param file_name: название файла для записи
+    :param strings: список строк для записи
+    :return: словарь strings_positions, где ключом будет кортеж (<номер строки>, <байт начала строки>), а значением - записываемая строка.
+    """
+    strings_positions = {}
+    with open(file_name, 'a', encoding='utf8') as f:
+        for number, text in enumerate(strings):
+            pos = f.tell()
+            f.write(text + '\n')
+            strings_positions[(number+1, pos)] = text
+    """
+    Пример полученного словаря:
+    {(1, 0): 'Text for tell.', (2, 16): 'Используйте кодировку utf-8.'}
+    Где:
+    1, 2 - номера записанных строк.
+    0, 16 - номера байт, на которых началась запись строк.
+    'Text for tell.', 'Используйте кодировку utf-8.' - сами строки.
+    """
+    return strings_positions
 
 
 def test():
@@ -22,6 +42,10 @@ def test():
     ((3, 66), 'Because there are 2 languages!')
     ((4, 98), 'Спасибо!')
     Как выглядит файл после запуска:
+    Text for tell.
+    Используйте кодировку utf-8.
+    Because there are 2 languages!
+    Спасибо!
     """
 
 
@@ -65,7 +89,6 @@ for elem in result.items():
 ((3, 66), 'Because there are 2 languages!')
 ((4, 98), 'Спасибо!')
 Как выглядит файл после запуска:
-
 
 Примечания:
 Не забывайте при записи в файл добавлять спец. символ перехода на следующую строку в конце - '\n'.
