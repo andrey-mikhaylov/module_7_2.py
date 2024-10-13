@@ -7,7 +7,7 @@ def custom_write(file_name: str, strings: list[str]) -> dict:
     :return: словарь strings_positions, где ключом будет кортеж (<номер строки>, <байт начала строки>), а значением - записываемая строка.
     """
     strings_positions = {}
-    with open(file_name, 'a', encoding='utf8') as f:
+    with open(file_name, 'w', encoding='utf8') as f:
         for number, text in enumerate(strings):
             pos = f.tell()
             f.write(text + '\n')
